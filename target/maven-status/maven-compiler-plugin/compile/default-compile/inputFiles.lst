@@ -1,0 +1,15 @@
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/base/BaseController.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/utils/Md5Util.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/base/ResultInfo.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/utils/UserIDBase64.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/base/BaseMapper.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/controller/IndexController.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/base/BaseQuery.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/utils/LoginUserUtil.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/exceptions/NoLoginException.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/utils/AssertUtil.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/exceptions/ParamsException.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/CRMApplication.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/base/BaseService.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/utils/CookieUtil.java
+/Users/baldprogrammer/Desktop/CRM/CRM/src/main/java/com/baldprogrammer/crm/utils/PhoneUtil.java
