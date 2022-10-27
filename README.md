@@ -1,2 +1,2 @@
-# CRM-personnel-System
+# CRM-Personnel-System
 SpringBoot + MyBatis  Practice project
