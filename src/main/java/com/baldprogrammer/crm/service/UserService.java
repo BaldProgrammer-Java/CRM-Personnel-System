@@ -9,17 +9,16 @@ import com.baldprogrammer.crm.utils.Md5Util;
 import com.baldprogrammer.crm.utils.UserIDBase64;
 import com.baldprogrammer.crm.vo.User;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 
 @Service
 public class UserService extends BaseService<User, Integer> {
 
-    @Resource
+    @Autowired
     private UserMapper userMapper;
 
 
