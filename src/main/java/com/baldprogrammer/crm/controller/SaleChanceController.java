@@ -1,13 +1,18 @@
 package com.baldprogrammer.crm.controller;
 
 import com.baldprogrammer.crm.base.BaseController;
+import com.baldprogrammer.crm.base.ResultInfo;
 import com.baldprogrammer.crm.query.SaleChanceQuery;
 import com.baldprogrammer.crm.service.SaleChanceService;
+import com.baldprogrammer.crm.utils.CookieUtil;
+import com.baldprogrammer.crm.vo.SaleChance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -45,5 +50,27 @@ public class SaleChanceController extends BaseController {
         return "saleChance/sale_chance";
     }
 
+    /**
+     * 添加营销机会
+     *
+     * @param saleChance
+     * @return
+     */
+    @PostMapping("/add")
+    @ResponseBody
+    public ResultInfo addSaleChance(SaleChance saleChance, HttpServletRequest request) {
+        //从Cookie中获取当前登陆的用户名
+        String userName = CookieUtil.getCookieValue(request, "userName");
+        //设置用户名到营销机会对象
+        saleChance.setCreateMan(userName);
+        //调用Service层的添加方法
+        saleChanceService.addSaleChance(saleChance);
+        return success("营销机会时间添加成功！");
+    }
+
+    @RequestMapping("/toSaleChancePage")
+    public String toSaleChancePage() {
+        return "saleChance/add_update";
+    }
 
 }

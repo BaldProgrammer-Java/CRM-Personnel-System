@@ -85,23 +85,18 @@ public class SaleChanceService extends BaseService<SaleChance, Integer> {
             //设置开发状态
             saleChance.setDevResult(DevResult.DEVING.getStatus());
         }
-
         //执行添加操作  判断受影响行数
         AssertUtil.isTrue(saleChanceMapper.insertSelective(saleChance) != 1, "添加营销失败！");
-
-
     }
 
-    private void checkSaleChanceParams(String customerName, String linkMan, String linkPhone) {
+    private void checkSaleChanceParams(String CustomerName, String LinkMan, String LinkPhone) {
         //customerName客户名称  非空
-        AssertUtil.isTrue(StringUtils.isBlank(customerName), "客户名称不能为空！");
+        AssertUtil.isTrue(StringUtils.isBlank(CustomerName), "客户名称不能为空！");
         //linkMan联系人         非空
-        AssertUtil.isTrue(StringUtils.isBlank(linkMan), "联系人不能为空！");
+        AssertUtil.isTrue(StringUtils.isBlank(LinkMan), "联系人不能为空！");
         //linkPhone联系号码     非空  手机号码格式正确
-        AssertUtil.isTrue(StringUtils.isBlank(linkPhone), "联系号码不能为空！");
-        AssertUtil.isTrue(PhoneUtil.isMobile(linkPhone), "联系号码格式不正确！");
-
-
+        AssertUtil.isTrue(StringUtils.isBlank(LinkPhone), "联系号码不能为空！");
+        AssertUtil.isTrue(!PhoneUtil.isMobile(LinkPhone), "联系号码格式不正确！");
     }
 
 

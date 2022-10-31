@@ -230,7 +230,7 @@
         select
         <include refid="Base_Column_List"/>
         from
-        t_sale_chance
+            t_sale_chance
         <where>
             is_valid = 1
             <if test="customerName != null and customerName != ''">
