@@ -89,6 +89,53 @@ public class SaleChanceService extends BaseService<SaleChance, Integer> {
         AssertUtil.isTrue(saleChanceMapper.insertSelective(saleChance) != 1, "添加营销失败！");
     }
 
+    /**
+     * 更新营销机会
+     *
+     * @param saleChance
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateSaleChance(SaleChance saleChance) {
+        //参数校验
+        AssertUtil.isTrue(null == saleChance.getId(), "待更新记录不存在！");
+        //通过主键查询对象
+        SaleChance temp = saleChanceMapper.selectByPrimaryKey(saleChance.getId());
+        //判断数据库中对应的记录存在
+        AssertUtil.isTrue(temp == null, "待更新记录不存在！");
+        checkSaleChanceParams(saleChance.getCustomerName(), saleChance.getLinkMan(), saleChance.getLinkPhone());
+
+        /*设置相关参数默认值*/
+        saleChance.setUpdateDate(new Date());
+        // assignMan指派人
+        if (StringUtils.isBlank(temp.getAssignMan())) {
+            //判断修改的信息是否存在
+            if (!StringUtils.isBlank(saleChance.getAssignMan())) {
+                saleChance.setAssignTime(new Date());
+                saleChance.setState(StateStatus.STATED.getType());
+                saleChance.setDevResult(DevResult.DEVING.getStatus());
+            }
+        } else {
+            if (StringUtils.isBlank(saleChance.getAssignMan())) {
+                saleChance.setAssignTime(null);
+                saleChance.setState(StateStatus.UNSTATE.getType());
+                saleChance.setDevResult(DevResult.UNDEV.getStatus());
+            } else {
+                if (saleChance.getAssignMan().equals(temp.getAssignMan())) {
+                    saleChance.setAssignTime(new Date());
+                }
+            }
+        }
+        AssertUtil.isTrue(saleChanceMapper.updateByPrimaryKeySelective(saleChance) != 1, "更新营销机会失败！");
+    }
+
+
+    /**
+     * 参数校验
+     *
+     * @param CustomerName
+     * @param LinkMan
+     * @param LinkPhone
+     */
     private void checkSaleChanceParams(String CustomerName, String LinkMan, String LinkPhone) {
         //customerName客户名称  非空
         AssertUtil.isTrue(StringUtils.isBlank(CustomerName), "客户名称不能为空！");

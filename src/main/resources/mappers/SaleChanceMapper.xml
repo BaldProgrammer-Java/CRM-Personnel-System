@@ -179,12 +179,6 @@
             <if test="createMan != null">
                 create_man = #{createMan,jdbcType=VARCHAR},
             </if>
-            <if test="assignMan != null">
-                assign_man = #{assignMan,jdbcType=VARCHAR},
-            </if>
-            <if test="assignTime != null">
-                assign_time = #{assignTime,jdbcType=TIMESTAMP},
-            </if>
             <if test="state != null">
                 state = #{state,jdbcType=INTEGER},
             </if>
@@ -200,6 +194,9 @@
             <if test="updateDate != null">
                 update_date = #{updateDate,jdbcType=TIMESTAMP},
             </if>
+
+            assign_man = #{assignMan,jdbcType=VARCHAR},
+            assign_time = #{assignTime,jdbcType=TIMESTAMP},--
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -230,7 +227,7 @@
         select
         <include refid="Base_Column_List"/>
         from
-            t_sale_chance
+        t_sale_chance
         <where>
             is_valid = 1
             <if test="customerName != null and customerName != ''">

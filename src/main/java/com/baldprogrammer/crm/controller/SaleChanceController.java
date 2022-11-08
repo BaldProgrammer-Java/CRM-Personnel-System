@@ -65,7 +65,21 @@ public class SaleChanceController extends BaseController {
         saleChance.setCreateMan(userName);
         //调用Service层的添加方法
         saleChanceService.addSaleChance(saleChance);
-        return success("营销机会时间添加成功！");
+        return success("营销机会数据添加成功！");
+    }
+
+    /**
+     * 更新营销机会
+     *
+     * @param saleChance
+     * @return
+     */
+    @PostMapping("/update")
+    @ResponseBody
+    public ResultInfo updateSaleChance(SaleChance saleChance) {
+        //调用Service层的修改方法
+        saleChanceService.updateSaleChance(saleChance);
+        return success("营销机会数据更新成功！");
     }
 
     @RequestMapping("/toSaleChancePage")
