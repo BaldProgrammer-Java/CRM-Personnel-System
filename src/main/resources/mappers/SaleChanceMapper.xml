@@ -237,6 +237,14 @@
             <if test="state !=null and state !=''">
                 and s.state =#{state}
             </if>
+            <!-- 根据开发状态进行查询 -->
+            <if test="devResult !=null and devResult !=''">
+                and s.dev_result =#{devResult}
+            </if>
+            <!-- 根据指派人进行查询 -->
+            <if test="assignMan !=null and assignMan !=''">
+                and s.assign_man =#{assignMan}
+            </if>
         </where>
     </select>
 
