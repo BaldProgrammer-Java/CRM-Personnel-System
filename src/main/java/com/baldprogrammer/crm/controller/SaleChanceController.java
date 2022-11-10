@@ -2,9 +2,11 @@ package com.baldprogrammer.crm.controller;
 
 import com.baldprogrammer.crm.base.BaseController;
 import com.baldprogrammer.crm.base.ResultInfo;
+import com.baldprogrammer.crm.enums.StateStatus;
 import com.baldprogrammer.crm.query.SaleChanceQuery;
 import com.baldprogrammer.crm.service.SaleChanceService;
 import com.baldprogrammer.crm.utils.CookieUtil;
+import com.baldprogrammer.crm.utils.LoginUserUtil;
 import com.baldprogrammer.crm.vo.SaleChance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +38,15 @@ public class SaleChanceController extends BaseController {
      */
     @RequestMapping("/list")
     @ResponseBody
-    public Map<String, Object> querySaleChanceByParams(SaleChanceQuery saleChanceQuery) {
+    public Map<String, Object> querySaleChanceByParams(SaleChanceQuery saleChanceQuery, Integer flag, HttpServletRequest request) {
+        //判断flag的值
+        if (flag != null && flag == 1) {
+            //客户开发计划  设置分配状态
+            saleChanceQuery.setState(StateStatus.STATED.getType());
+            //设置指派人  当前用户的ID
+            Integer userId = LoginUserUtil.releaseUserIdFromCookie(request);
+            saleChanceQuery.setAssignMan(userId);
+        }
         return saleChanceService.querySaleChanceByParams(saleChanceQuery);
     }
 

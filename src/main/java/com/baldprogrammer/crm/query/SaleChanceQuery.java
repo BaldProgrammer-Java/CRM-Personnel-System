@@ -15,10 +15,10 @@ import lombok.Data;
 public class SaleChanceQuery extends BaseQuery {
 
 
-    private String customerName; //客户名
+    private String customerName; //客户名s
     private String createMan; //创建人
     private Integer state;  //分配状态  0=未分配  1=已分配
-    private String devResult;
-    private String assignMan;
+    private String devResult; //开发状态
+    private Integer assignMan; //指派人
 
 }
