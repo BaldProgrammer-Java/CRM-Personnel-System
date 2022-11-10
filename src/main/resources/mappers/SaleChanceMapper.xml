@@ -242,5 +242,18 @@
         </where>
     </select>
 
+    <!--批量删除 无需删除数据 更改状态-->
+    <update id="deleteBatch">
+        update
+            t_sale_chance
+        set
+            is_valid = 0
+        where
+            id
+        in
+            <foreach collection="array" separator="," open="(" close=")" item="id">
+                #{id}
+            </foreach>
+    </update>
 
 </mapper>
