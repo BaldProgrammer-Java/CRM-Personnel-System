@@ -224,20 +224,18 @@
     <!--多条件查询-->
     <select id="selectByParams" parameterType="com.baldprogrammer.crm.query.SaleChanceQuery"
             resultType="com.baldprogrammer.crm.vo.SaleChance">
-        select
-        <include refid="Base_Column_List"/>
-        from
-        t_sale_chance
+        select s.*,u.user_name as uname
+        from t_sale_chance s left  join  t_user u on s.assign_man = u.id
         <where>
-            is_valid = 1
-            <if test="customerName != null and customerName != ''">
-                and customer_name like concat('%',#{customerName},'%')
+            s.is_valid=1
+            <if test="customerName !=null and customerName !=''">
+                and s.customer_name like concat('%',#{customerName},'%')
             </if>
-            <if test="createMan != null and createMan != ''">
-                and create_man = #{createMan}
+            <if test="createMan !=null and createMan !=''">
+                and s.create_man = #{createMan}
             </if>
-            <if test="state != null">
-                and state = #{state}
+            <if test="state !=null and state !=''">
+                and s.state =#{state}
             </if>
         </where>
     </select>
