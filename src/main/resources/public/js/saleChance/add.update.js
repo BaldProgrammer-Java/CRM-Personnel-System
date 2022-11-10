@@ -26,10 +26,15 @@ layui.use(['form', 'layer'], function () {
         var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         //弹出loading
         var url=ctx + "/sale_chance/add";
-      /*  if($("input[name='id']").val()){
-            url=ctx + "/sale_chance/update";
-        }*/
+
+        var saleChanceId = $("[name='id']").val();
+
+        if (saleChanceId != null && saleChanceId != '') {
+            url = ctx + "/sale_chance/update";
+        }
+
         $.post(url, data.field, function (res) {
+            console.log(data.field);
             if (res.code == 200) {
                 setTimeout(function () {
                     top.layer.close(index);

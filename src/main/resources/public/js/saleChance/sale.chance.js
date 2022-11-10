@@ -125,11 +125,11 @@ layui.use(['table','layer'],function(){
 
 
     // 打开添加机会数据页面
-    function openAddOrUpdateSaleChanceDialog(sid){
+    function openAddOrUpdateSaleChanceDialog(saleChanceId){
         var url  =  ctx+"/sale_chance/toSaleChancePage";
         var title="营销机会管理-机会添加";
-        if(sid){
-            url = url+"?id="+sid;
+        if(saleChanceId != null && saleChanceId != ''){
+            url += '?saleChanceId=' + saleChanceId;
             title="营销机会管理-机会更新";
         }
         layui.layer.open({

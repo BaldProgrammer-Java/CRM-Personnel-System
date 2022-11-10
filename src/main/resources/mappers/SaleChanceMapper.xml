@@ -196,7 +196,7 @@
             </if>
 
             assign_man = #{assignMan,jdbcType=VARCHAR},
-            assign_time = #{assignTime,jdbcType=TIMESTAMP},--
+            assign_time = #{assignTime,jdbcType=TIMESTAMP},
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
