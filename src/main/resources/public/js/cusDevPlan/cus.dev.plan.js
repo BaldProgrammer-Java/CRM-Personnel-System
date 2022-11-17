@@ -89,7 +89,7 @@ layui.use(['table','layer'],function(){
             type : 2,
             area:["750px","550px"],
             maxmin:true,
-            content : ctx+"/cus_dev_plan/toCusDevPlanDataPage?sid="+sid
+            content : ctx+"/cus_dev_plan/toCusDevPlanPage?sid="+sid
         });
     }
 

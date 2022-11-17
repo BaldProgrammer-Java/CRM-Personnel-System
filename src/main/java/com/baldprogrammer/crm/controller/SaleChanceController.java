@@ -8,12 +8,12 @@ import com.baldprogrammer.crm.service.SaleChanceService;
 import com.baldprogrammer.crm.utils.CookieUtil;
 import com.baldprogrammer.crm.utils.LoginUserUtil;
 import com.baldprogrammer.crm.vo.SaleChance;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ import java.util.Map;
 @RequestMapping("/sale_chance")
 public class SaleChanceController extends BaseController {
 
-    @Autowired
+    @Resource
     private SaleChanceService saleChanceService;
 
     /**
