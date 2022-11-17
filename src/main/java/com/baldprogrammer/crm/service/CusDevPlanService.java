@@ -2,15 +2,19 @@ package com.baldprogrammer.crm.service;
 
 import com.baldprogrammer.crm.base.BaseService;
 import com.baldprogrammer.crm.dao.CusDevPlanMapper;
+import com.baldprogrammer.crm.dao.SaleChanceMapper;
 import com.baldprogrammer.crm.query.CusDevPlanQuery;
-import com.baldprogrammer.crm.query.SaleChanceQuery;
+import com.baldprogrammer.crm.utils.AssertUtil;
 import com.baldprogrammer.crm.vo.CusDevPlan;
-import com.baldprogrammer.crm.vo.SaleChance;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +29,9 @@ public class CusDevPlanService extends BaseService<CusDevPlan, Integer> {
 
     @Resource
     private CusDevPlanMapper cusDevPlanMapper;
+
+    @Resource
+    private SaleChanceMapper saleChanceMapper;
 
     /**
      * 多条件查询客户啊开发计划
@@ -47,6 +54,44 @@ public class CusDevPlanService extends BaseService<CusDevPlan, Integer> {
         map.put("data", pageInfo.getList());
 
         return map;
+    }
+
+    /**
+     * 添加客户开发计划
+     *
+     * @param cusDevPlan
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addCusDevPlan(CusDevPlan cusDevPlan) {
+        //参数校验
+        checkCusDevPlanParams(cusDevPlan);
+
+        //设置默认值
+        //设置是否有效
+        cusDevPlan.setIsValid(1);
+        //设置创建时间
+        cusDevPlan.setCreateDate(new Date());
+        //设置提交时间
+        cusDevPlan.setUpdateDate(new Date());
+
+        AssertUtil.isTrue(cusDevPlanMapper.insertSelective(cusDevPlan) != 1,"计划项数据添加失败");
+    }
+
+    /**
+     *参数校验
+     *
+     * @param cusDevPlan
+     */
+    private void checkCusDevPlanParams(CusDevPlan cusDevPlan) {
+        //营销机会ID
+        Integer sId = cusDevPlan.getSaleChanceId();
+        AssertUtil.isTrue(null == sId || saleChanceMapper.selectByPrimaryKey(sId) == null,"数据异常，请重试");
+
+        //计划项内容
+        AssertUtil.isTrue(StringUtils.isBlank(cusDevPlan.getPlanItem()),"计划项内容不能为空！");
+
+        //计划时间
+        AssertUtil.isTrue(null == cusDevPlan.getPlanDate(),"计划时间不能为空！");
     }
 
 

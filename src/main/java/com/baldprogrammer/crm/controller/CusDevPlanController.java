@@ -1,14 +1,14 @@
 package com.baldprogrammer.crm.controller;
 
 import com.baldprogrammer.crm.base.BaseController;
-import com.baldprogrammer.crm.enums.StateStatus;
+import com.baldprogrammer.crm.base.ResultInfo;
 import com.baldprogrammer.crm.query.CusDevPlanQuery;
-import com.baldprogrammer.crm.query.SaleChanceQuery;
 import com.baldprogrammer.crm.service.CusDevPlanService;
 import com.baldprogrammer.crm.service.SaleChanceService;
-import com.baldprogrammer.crm.utils.LoginUserUtil;
+import com.baldprogrammer.crm.vo.CusDevPlan;
 import com.baldprogrammer.crm.vo.SaleChance;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -70,4 +70,28 @@ public class CusDevPlanController extends BaseController {
 
         return cusDevPlanService.queryCusDevPlanByParams(cusDevPlanQuery);
     }
+
+    /**
+     * 添加计划项
+     *
+     * @param cusDevPlan
+     * @return
+     */
+    @PostMapping("/add")
+    @ResponseBody
+    public ResultInfo addCusDevPlan(CusDevPlan cusDevPlan) {
+        cusDevPlanService.addCusDevPlan(cusDevPlan);
+        return success("计划项添加成功！");
+    }
+
+    /**
+     * 进入添加或修改计划项页面
+     *
+     * @return
+     */
+    @RequestMapping("/toAddOrUpdateCusDevPlanPage")
+    public String toAddOrUpdateCusDevPlanPage() {
+        return "/cusDevPlan/add_update";
+    }
+
 }
