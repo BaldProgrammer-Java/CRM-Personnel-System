@@ -127,4 +127,19 @@ public class SaleChanceController extends BaseController {
         return success("营销机会数据删除成功！");
     }
 
+
+    /**
+     *更新营销机会的开发状态
+     *
+     * @param id
+     * @param devResult
+     * @return
+     */
+    @PostMapping("/updateSaleChanceDevResult")
+    @ResponseBody
+    public ResultInfo updateSaleChanceDevResult(Integer id, Integer devResult) {
+        saleChanceService.updateSaleChanceDevResult(id, devResult);
+        return success("开发状态更新成功！");
+    }
+
 }
