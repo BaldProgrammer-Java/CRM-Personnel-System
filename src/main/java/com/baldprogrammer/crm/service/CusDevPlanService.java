@@ -78,6 +78,29 @@ public class CusDevPlanService extends BaseService<CusDevPlan, Integer> {
     }
 
     /**
+     * 更新用户开发计划项数据
+     *
+     * @param cusDevPlan
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateCusDevPlan(CusDevPlan cusDevPlan) {
+        //参数校验
+        AssertUtil.isTrue(null == cusDevPlan.getId()
+                || cusDevPlanMapper.selectByPrimaryKey(cusDevPlan.getId()) == null, "数据异常，请重试！");
+        checkCusDevPlanParams(cusDevPlan);
+
+        //设置参数的默认值
+        //修改时间  系统当前时间
+        cusDevPlan.setUpdateDate(new Date());
+
+        //执行更新操作，判断受影响的行数
+        AssertUtil.isTrue(cusDevPlanMapper.updateByPrimaryKeySelective(cusDevPlan) != 1, "更新计划项失败！");
+
+
+    }
+
+
+    /**
      *参数校验
      *
      * @param cusDevPlan

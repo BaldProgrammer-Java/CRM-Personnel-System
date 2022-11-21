@@ -83,6 +83,20 @@ public class CusDevPlanController extends BaseController {
         return success("计划项添加成功！");
     }
 
+
+    /**
+     * 更新计划项
+     *
+     * @param cusDevPlan
+     * @return
+     */
+    @PostMapping("/update")
+    @ResponseBody
+    public ResultInfo updateCusDevPlan(CusDevPlan cusDevPlan) {
+        cusDevPlanService.updateCusDevPlan(cusDevPlan);
+        return success("计划项更新成功！");
+    }
+
     /**
      * 进入添加或修改计划项页面
      *
