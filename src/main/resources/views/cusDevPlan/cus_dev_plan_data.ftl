@@ -9,7 +9,7 @@
 		<div class="layui-card">
 			<div class="layui-card-body">
 				<form class="layui-form" >
-					<input name="id" type="hidden" value="${(saleChance.id)!}"/>
+					<input name="id" type="hidden" value="${(saleChance.id)!}" id="test"/>
 					<div class="layui-form-item layui-row">
 						<div class="layui-col-xs6">
 							<label class="layui-form-label">客户名称</label>
@@ -69,7 +69,7 @@
 		<table id="cusDevPlanList" class="layui-table"  lay-filter="cusDevPlans"></table>
 	</div>
 
-	<#--<#if saleChance.devResult==0 || saleChance.devResult==1>-->
+	<#if saleChance.devResult==0 || saleChance.devResult==1>
 		<script type="text/html" id="toolbarDemo">
 			<div class="layui-btn-container">
 				<a class="layui-btn layui-btn-normal addNews_btn" lay-event="add">
@@ -92,7 +92,7 @@
 			<a class="layui-btn layui-btn-xs" id="edit" lay-event="edit">编辑</a>
 			<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
 		</script>
-	<#--</#if>-->
+	</#if>
 
 	<script type="text/javascript" src="${ctx}/js/cusDevPlan/cus.dev.plan.data.js"></script>
 </body>

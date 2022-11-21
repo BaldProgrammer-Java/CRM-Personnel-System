@@ -71,27 +71,25 @@ layui.use(['table','layer'],function(){
     /**
      * 行监听
      */
-    table.on("tool(saleChances)", function(obj){
-        var layEvent = obj.event;
-        if(layEvent === "dev") {
-            openCusDevPlanDialog("计划项数据维护",obj.data.id);
-        }else if(layEvent === "info") {
-            openCusDevPlanDialog("计划项数据详情",obj.data.id);
+    table.on("tool(saleChances)", function(data){
+        if(data.event === "dev") {
+            openCusDevPlanDialog("计划项数据维护",data.data.id);
+        }else if(data.event === "info") {
+            openCusDevPlanDialog("计划项数据详情",data.data.id);
         }
-
     });
 
 
     // 打开开发计划对话框
-    function openCusDevPlanDialog(title,sid){
+    function openCusDevPlanDialog(title,id){
         layui.layer.open({
             title : title,
             type : 2,
             area:["750px","550px"],
             maxmin:true,
-            content : ctx+"/cus_dev_plan/toCusDevPlanPage?sid="+sid
+            content : ctx+"/cus_dev_plan/toCusDevPlanPage?id="+id
         });
-    }
+    };
 
 
 

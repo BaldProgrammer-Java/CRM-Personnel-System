@@ -67,7 +67,6 @@ public class CusDevPlanController extends BaseController {
     @RequestMapping("/list")
     @ResponseBody
     public Map<String, Object> queryCusDevPlanByParams(CusDevPlanQuery cusDevPlanQuery) {
-
         return cusDevPlanService.queryCusDevPlanByParams(cusDevPlanQuery);
     }
 
@@ -90,7 +89,9 @@ public class CusDevPlanController extends BaseController {
      * @return
      */
     @RequestMapping("/toAddOrUpdateCusDevPlanPage")
-    public String toAddOrUpdateCusDevPlanPage() {
+    public String toAddOrUpdateCusDevPlanPage(HttpServletRequest request,Integer sId) {
+        //将营销机会Id设置到请求域中，给计划项获取
+        request.setAttribute("sId",sId);
         return "/cusDevPlan/add_update";
     }
 

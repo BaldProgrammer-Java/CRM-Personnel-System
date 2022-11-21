@@ -5,12 +5,14 @@ layui.use(['form', 'layer'], function () {
 
     form.on("submit(addOrUpdateCusDevPlan)", function (data) {
         var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
+
+        var formData = data.field
         //弹出loading
-        var url=ctx + "/cus_dev_plan/save";
-        if($("input[name='id']").val()){
-            url=ctx + "/cus_dev_plan/update";
-        }
-        $.post(url, data.field, function (res) {
+        var url= ctx + "/cus_dev_plan/add";
+       /* if($("input[name='id']").val()){
+            url=ctx + "/cus_dev_plan/add";
+        }*/
+        $.post(url, formData, function (res) {
             if (res.code == 200) {
                 setTimeout(function () {
                     top.layer.close(index);
@@ -29,4 +31,11 @@ layui.use(['form', 'layer'], function () {
         });
         return false;
     });
+
+    $("#closeBtn").click(function () {
+       var index = parent.layer.getFrameIndex(window.name);
+       parent.layer.close(index);
+    });
+
+
 });
