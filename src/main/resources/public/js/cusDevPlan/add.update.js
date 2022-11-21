@@ -9,9 +9,9 @@ layui.use(['form', 'layer'], function () {
         var formData = data.field
         //弹出loading
         var url= ctx + "/cus_dev_plan/add";
-       /* if($("input[name='id']").val()){
-            url=ctx + "/cus_dev_plan/add";
-        }*/
+        if($("[name='id']").val()){
+            url=ctx + "/cus_dev_plan/update";
+        }
         $.post(url, formData, function (res) {
             if (res.code == 200) {
                 setTimeout(function () {

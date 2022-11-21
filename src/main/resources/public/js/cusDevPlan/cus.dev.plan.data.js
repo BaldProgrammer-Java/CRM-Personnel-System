@@ -24,7 +24,6 @@ layui.use(['table', 'layer'], function () {
             {title: '操作', fixed: "right", align: "center", minWidth: 150, templet: "#cusDevPlanListBar"}
         ]]
     });
-    console.log($("#test").val());
 
 
     //头工具栏事件
@@ -68,14 +67,14 @@ layui.use(['table', 'layer'], function () {
 
 
     // 打开添加计划项数据页面
-    function openAddOrUpdateCusDevPlanDialog() {
-        var url = ctx + "/cus_dev_plan/toAddOrUpdateCusDevPlanPage?sId=" + $("input[name='id']").val();
+    function openAddOrUpdateCusDevPlanDialog(id) {
+        var url = ctx + "/cus_dev_plan/toAddOrUpdateCusDevPlanPage?sId=" + $("[name='id']").val();
         var title = "计划项管理-添加计划项";
-        console.log($("input[name='id']").val());
-        /*if(id){
-            url = url+"&id="+id;
-            title="计划项管理-更新计划项";
-        }*/
+
+        if (id != null && id != '') {
+            title = "计划项管理-更新计划项";
+            url += "&id="+id;
+        }
         layui.layer.open({
             title: title,
             type: 2,
