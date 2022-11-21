@@ -113,4 +113,10 @@ public class CusDevPlanController extends BaseController {
         return "/cusDevPlan/add_update";
     }
 
+    @PostMapping("/delete")
+    @ResponseBody
+    public ResultInfo deleteCusDevPlan(Integer id) {
+        cusDevPlanService.deleteCusDevPlan(id);
+        return success("删除成功");
+    }
 }
