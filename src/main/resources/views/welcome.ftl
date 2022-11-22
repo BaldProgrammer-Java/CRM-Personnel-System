@@ -10,7 +10,7 @@
 <div class="layui-tab-item layui-show">
     <div class="layui-carousel" id="test10" align="center">
         <div carousel-item="">
-            <div><img src="${ctx}/images/mm.png"></div>
+            <div><img src="${ctx}/images/timg.jpeg" style="width:100%"></div>
         </div>
     </div>
 </div>
@@ -42,7 +42,7 @@
         carousel.render({
             elem: '#test10'
             ,width: '100%'
-            ,height: '440px'
+            ,height: '660px'
             ,interval: 3000
         });
 
