@@ -159,6 +159,12 @@ public class SaleChanceService extends BaseService<SaleChance, Integer> {
         AssertUtil.isTrue(saleChanceMapper.deleteBatch(ids) != ids.length, "营销机会数据删除失败");
     }
 
+    /**
+     * 更新营销机会开发状态
+     *
+     * @param id
+     * @param devResult
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateSaleChanceDevResult(Integer id, Integer devResult) {
         //判断ID是否为空
