@@ -3,8 +3,11 @@ package com.baldprogrammer.crm.controller;
 import com.baldprogrammer.crm.base.BaseController;
 import com.baldprogrammer.crm.base.ResultInfo;
 import com.baldprogrammer.crm.model.UserModel;
+import com.baldprogrammer.crm.query.UserQuery;
 import com.baldprogrammer.crm.service.UserService;
 import com.baldprogrammer.crm.utils.LoginUserUtil;
+import com.baldprogrammer.crm.vo.User;
+import com.mysql.cj.jdbc.SuspendableXAConnection;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -102,6 +107,43 @@ public class UserController extends BaseController {
     @RequestMapping("toPasswordPage")
     public String toPasswordPage() {
         return "user/password";
+    }
+
+
+    /**
+     * 查询用户列表
+     *
+     * @param userQuery
+     * @return
+     */
+    @RequestMapping("/list")
+    @ResponseBody
+    public Map<String, Object> selectByParams(UserQuery userQuery) {
+        return userService.queryByParamsForTable(userQuery);
+    }
+
+    /**
+     * 进入用户列表页面
+     *
+     * @return
+     */
+    @RequestMapping("/index")
+    public String index() {
+        return "/user/user";
+    }
+
+
+    /**
+     * 添加用户
+     *
+     * @param user
+     * @return
+     */
+    @PostMapping("/add")
+    @ResponseBody
+    public ResultInfo addUser(User user) {
+        userService.addUser(user);
+        return success("用户添加成功！");
     }
 
 }

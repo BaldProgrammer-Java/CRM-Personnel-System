@@ -53,4 +53,40 @@ layui.use(['form', 'layer'], function () {
         });
         return false;
     });
+
+
+    /**
+     * 加载指派人的下拉框
+     */
+    $.ajax({
+        type:"get",
+        url:ctx + "/user/queryAllSales",
+        data:{},
+        success:function (data) {
+            // console.log(data);
+            // 判断返回的数据是否为空
+            if (data != null) {
+                // 获取隐藏域设置的指派人ID
+                var assignManId = $("#assignManId").val();
+                // 遍历返回的数据
+                for(var i = 0; i < data.length; i++) {
+                    var opt = "";
+                    // 如果循环得到的ID与隐藏域的ID相等，则表示被选中
+                    if (assignManId == data[i].id) {
+                        // 设置下拉选项  设置下拉选项选中
+                        opt = "<option value='"+data[i].id+"' selected>"+data[i].uname+"</option>";
+                    } else {
+                        // 设置下拉选项
+                        opt = "<option value='"+data[i].id+"'>"+data[i].uname+"</option>";
+                    }
+
+                    // 将下拉项设置到下拉框中
+                    $("#assignMan").append(opt);
+                }
+            }
+            // 重新渲染下拉框的内容
+            layui.form.render("select");
+        }
+    });
+
 });
