@@ -153,5 +153,20 @@
         </where>
     </select>
 
+    <!-- 删除用户 -->
+    <update id="deleteBatch">
+        update
+        t_user
+        set
+        is_valid = 0
+        where
+        id
+        in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+
 
 </mapper>

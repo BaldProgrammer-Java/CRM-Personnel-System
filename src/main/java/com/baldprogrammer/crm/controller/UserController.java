@@ -179,4 +179,17 @@ public class UserController extends BaseController {
     }
 
 
+    /**
+     * 删除用户
+     *
+     * @param ids
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    public ResultInfo deleteUser(Integer[] ids) {
+        userService.deleteByIds(ids);
+        return success("用户删除成功！");
+    }
+
 }
