@@ -153,7 +153,7 @@ public class UserController extends BaseController {
      * @param user
      * @return
      */
-    @PostMapping("/updateUser")
+    @PostMapping("/update")
     @ResponseBody
     public ResultInfo updateUser(User user) {
         userService.updateUser(user);
@@ -167,7 +167,14 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping("/toAddOrUpdateUserPage")
-    public String toAddOrUpdateUserPage() {
+    public String toAddOrUpdateUserPage(Integer id, HttpServletRequest request) {
+        //判断id是否为空，不为空则是更新操作，查询用户对象
+        if (id != null) {
+            //通过id查询用户对象
+            User user = userService.selectByPrimaryKey(id);
+            //将数据设置到请求域中
+            request.setAttribute("userInfo",user);
+        }
         return "/user/add_update";
     }
 
