@@ -9,6 +9,7 @@ import com.baldprogrammer.crm.utils.Md5Util;
 import com.baldprogrammer.crm.utils.PhoneUtil;
 import com.baldprogrammer.crm.utils.UserIDBase64;
 import com.baldprogrammer.crm.vo.User;
+import freemarker.template.TemplateModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -143,7 +144,7 @@ public class UserService extends BaseService<User, Integer> {
     @Transactional(propagation = Propagation.REQUIRED)
     public void addUser(User user) {
         //参数校验
-        checkUserParams(user.getUserName(), user.getEmail(), user.getPhone());
+        checkUserParams(user.getUserName(), user.getEmail(), user.getPhone(), null);
         //设置默认参数
         user.setIsValid(1);
         user.setCreateDate(new Date());
@@ -158,20 +159,46 @@ public class UserService extends BaseService<User, Integer> {
 
 
     /**
+     * 更新用户
+     *
+     * @param user
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateUser(User user) {
+        //判断用户ID非空 且数据存在
+        AssertUtil.isTrue(null == user.getId(), "待更新记录不存在！");
+        //通过id查询数据
+        User temp = userMapper.selectByPrimaryKey(user.getId());
+        //判断是否存在
+        AssertUtil.isTrue(null == temp, "待更新记录不存在！");
+        //参数校验
+        checkUserParams(user.getUserName(), user.getEmail(), user.getPhone(),user.getId());
+        //设置默认值
+        user.setUpdateDate(new Date());
+        //执行更新
+        AssertUtil.isTrue(userMapper.updateByPrimaryKeySelective(user) != 1, "用户更新失败！");
+
+    }
+
+
+    /**
      * 添加用户参数校验
      *
      * @param userName
      * @param email
      * @param phone
      */
-    private void checkUserParams(String userName, String email, String phone) {
+    private void checkUserParams(String userName, String email, String phone, Integer userId) {
         //判断用户名是否为空
         AssertUtil.isTrue(StringUtils.isBlank(userName), "用户名不能为空！");
         //判断用户的唯一性
         //通过用户名查询用户对象
         User temp = userMapper.queryUserByName(userName);
         //如果用户对象为空,则表示用户名可用，如果用户对象不为空，则表示用户名不可用
-        AssertUtil.isTrue(null != temp, "用户名已存在，请重新输入！");
+        //如果是添加操作，数据库中无数据，只要通过名称查到数据，则表示用户名被占用
+        //如果是修改操作，数据库中有对应记录，通过用户名查到数据，可能是当前记录本身，也可能是别的记录
+        //如果用户名存在，且与当前修改记录不是同一个，则表示其他记录占用了该用户名，不可用
+        AssertUtil.isTrue(null != temp && !(temp.getId().equals(userId)), "用户名已存在，请重新输入！");
         //email not null
         AssertUtil.isTrue(StringUtils.isBlank(email), "用户邮箱不能为空！");
         //phone not null

@@ -148,6 +148,20 @@ public class UserController extends BaseController {
 
 
     /**
+     * 修改用户
+     *
+     * @param user
+     * @return
+     */
+    @PostMapping("/updateUser")
+    @ResponseBody
+    public ResultInfo updateUser(User user) {
+        userService.updateUser(user);
+        return success("修改用户数据成功！");
+    }
+
+
+    /**
      * 打开用户或修改用户页面
      *
      * @return
