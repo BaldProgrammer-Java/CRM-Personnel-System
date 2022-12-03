@@ -21,6 +21,8 @@ public class User {
 
     private Integer isValid;
 
+    private String roleIds;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createDate;
 

@@ -2,13 +2,16 @@ package com.baldprogrammer.crm.service;
 
 
 import com.baldprogrammer.crm.base.BaseService;
+import com.baldprogrammer.crm.dao.RoleMapper;
 import com.baldprogrammer.crm.dao.UserMapper;
+import com.baldprogrammer.crm.dao.UserRoleMapper;
 import com.baldprogrammer.crm.model.UserModel;
 import com.baldprogrammer.crm.utils.AssertUtil;
 import com.baldprogrammer.crm.utils.Md5Util;
 import com.baldprogrammer.crm.utils.PhoneUtil;
 import com.baldprogrammer.crm.utils.UserIDBase64;
 import com.baldprogrammer.crm.vo.User;
+import com.baldprogrammer.crm.vo.UserRole;
 import freemarker.template.TemplateModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -16,13 +19,18 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserService extends BaseService<User, Integer> {
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
 
     /**
@@ -153,7 +161,38 @@ public class UserService extends BaseService<User, Integer> {
         user.setUserPwd(Md5Util.encode("123456"));
 
         //执行添加操作，判断受影响行数
-        AssertUtil.isTrue(userMapper.insertSelective(user) != 1, "用户添加失败！");
+        AssertUtil.isTrue(userMapper.insertSelective(user) < 1, "用户添加失败！");
+
+        //用户角色关联
+        relationUserRole(user.getId(), user.getRoleIds());
+
+    }
+
+    /**
+     * 用户角色关联
+     *
+     * @param userId
+     * @param roleIds
+     */
+    private void relationUserRole(Integer userId, String roleIds) {
+        Integer count = userRoleMapper.countUserRoleByUserId(userId);
+
+        if (count > 0) {
+            AssertUtil.isTrue(userRoleMapper.deleteUserRoleByUserId(userId) != count, "用户角色分配失败！");
+        }
+        if (StringUtils.isNotBlank(roleIds)) {
+            List<UserRole> userRoles = new ArrayList<UserRole>();
+
+            for (String s : roleIds.split(",")) {
+                UserRole userRole = new UserRole();
+                userRole.setUserId(userId);
+                userRole.setRoleId(Integer.parseInt(s));
+                userRole.setCreateDate(new Date());
+                userRole.setUpdateDate(new Date());
+                userRoles.add(userRole);
+            }
+            AssertUtil.isTrue(userRoleMapper.insertBatch(userRoles) < userRoles.size(), "用户角色分配失败！");
+        }
 
     }
 
@@ -178,6 +217,7 @@ public class UserService extends BaseService<User, Integer> {
         //执行更新
         AssertUtil.isTrue(userMapper.updateByPrimaryKeySelective(user) != 1, "用户更新失败！");
 
+        relationUserRole(user.getId(), user.getRoleIds());
     }
 
 
@@ -219,6 +259,15 @@ public class UserService extends BaseService<User, Integer> {
         AssertUtil.isTrue(ids == null || ids.length == 0, "待删除记录不存在！");
         //执行删除操作，判断受影响行数
         AssertUtil.isTrue(userMapper.deleteBatch(ids) != ids.length, "用户删除失败");
+
+        //遍历用户Id的数组
+        for (Integer userId : ids) {
+            Integer count = userRoleMapper.countUserRoleByUserId(userId);
+
+            if (count > 0) {
+                AssertUtil.isTrue(userMapper.deleteByPrimaryKey(userId) != count, "删除用户失败！");
+            }
+        }
     }
 
 

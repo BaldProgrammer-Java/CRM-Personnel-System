@@ -80,7 +80,6 @@
         </trim>
     </insert>
 
-
     <update id="updateByPrimaryKeySelective" parameterType="com.baldprogrammer.crm.vo.User">
         update t_user
         <set>
@@ -112,7 +111,6 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -129,8 +127,6 @@
         where
         user_Name = #{userName}
     </select>
-
-
 
     <!--多条件查询-->
     <select id="selectByParams" parameterType="com.baldprogrammer.crm.query.UserQuery"
