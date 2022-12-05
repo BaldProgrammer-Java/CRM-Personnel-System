@@ -4,6 +4,7 @@ import com.baldprogrammer.crm.base.BaseService;
 import com.baldprogrammer.crm.dao.RoleMapper;
 import com.baldprogrammer.crm.utils.AssertUtil;
 import com.baldprogrammer.crm.vo.Role;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -65,6 +66,20 @@ public class RoleSerivce extends BaseService<Role, Integer> {
     }
 
 
-
-
+    /**
+     * 修改角色信息
+     *
+     * @param role
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateRole(Role role) {
+        AssertUtil.isTrue(null == role.getId(), "待更新记录不存在！");
+        Role temp = roleMapper.selectByPrimaryKey(role.getId());
+        AssertUtil.isTrue(null == temp, "待更新记录不存在");
+        AssertUtil.isTrue(StringUtils.isBlank(role.getRoleName()), "角色名称不能为空！");
+        temp = roleMapper.selectByRoleName(role.getRoleName());
+        AssertUtil.isTrue(null !=temp && (!temp.getId().equals(role.getId())),"角色名称已经存在，不可使用！");
+        role.setUpdateDate(new Date());
+        AssertUtil.isTrue(roleMapper.updateByPrimaryKeySelective(role) < 1, "修改角色信息失败！");
+    }
 }

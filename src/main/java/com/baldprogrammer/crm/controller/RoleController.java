@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,12 @@ public class RoleController extends BaseController {
         return "/role/role";
     }
 
-
+    /**
+     * 添加角色Api
+     *
+     * @param role
+     * @return
+     */
     @PostMapping("/add")
     @ResponseBody
     public ResultInfo addRole(Role role) {
@@ -69,9 +75,32 @@ public class RoleController extends BaseController {
         return success("角色添加成功！");
     }
 
+    /**
+     * 添加/修改角色信息视图跳转
+     *
+     * @return
+     */
     @RequestMapping("/toAddOrUpdateRolePage")
-    public String toAddOrUpdateRolePage() {
+    public String toAddOrUpdateRolePage(Integer roleId, HttpServletRequest request) {
+        //如果roleId不为空，则表示修改操作，通过角色ID查询角色记录，存到请求域中
+        if (roleId != null) {
+            Role role = roleSerivce.selectByPrimaryKey(roleId);
+            request.setAttribute("role", role);
+        }
         return "/role/add_update";
+    }
+
+
+    /**
+     * 修改角色信息Api
+     *
+     * @return
+     */
+    @PostMapping("/update")
+    @ResponseBody
+    public ResultInfo updateRole(Role role) {
+        roleSerivce.updateRole(role);
+        return success("角色修改成功！");
     }
 
 
