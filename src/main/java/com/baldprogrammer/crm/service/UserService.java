@@ -2,7 +2,6 @@ package com.baldprogrammer.crm.service;
 
 
 import com.baldprogrammer.crm.base.BaseService;
-import com.baldprogrammer.crm.dao.RoleMapper;
 import com.baldprogrammer.crm.dao.UserMapper;
 import com.baldprogrammer.crm.dao.UserRoleMapper;
 import com.baldprogrammer.crm.model.UserModel;
@@ -12,7 +11,6 @@ import com.baldprogrammer.crm.utils.PhoneUtil;
 import com.baldprogrammer.crm.utils.UserIDBase64;
 import com.baldprogrammer.crm.vo.User;
 import com.baldprogrammer.crm.vo.UserRole;
-import freemarker.template.TemplateModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
