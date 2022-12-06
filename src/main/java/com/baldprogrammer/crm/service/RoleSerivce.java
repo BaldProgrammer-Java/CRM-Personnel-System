@@ -82,4 +82,25 @@ public class RoleSerivce extends BaseService<Role, Integer> {
         role.setUpdateDate(new Date());
         AssertUtil.isTrue(roleMapper.updateByPrimaryKeySelective(role) < 1, "修改角色信息失败！");
     }
+
+
+    /**
+     * 删除角色信息
+     *
+     * @param roleId
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteRole(Integer roleId) {
+        //判断ID是否为空
+        AssertUtil.isTrue(null == roleId, "待删除记录不存在！");
+        //通过角色Id查询角色记录
+        Role role = roleMapper.selectByPrimaryKey(roleId);
+        //判断角色记录是否存在
+        AssertUtil.isTrue(null == role, "待删除记录不存在！");
+        //设置删除状态
+        role.setIsValid(0);
+        role.setUpdateDate(new Date());
+        //执行更新操作
+        AssertUtil.isTrue(roleMapper.updateByPrimaryKeySelective(role) < 1, "角色删除失败！");
+    }
 }
