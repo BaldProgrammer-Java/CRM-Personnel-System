@@ -13,4 +13,5 @@ public class TreeModel {
     private Integer Id;
     private Integer PId;
     private String name;
+    private boolean checked = false;
 }

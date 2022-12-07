@@ -122,4 +122,14 @@
         role_id= #{roleId}
   </delete>
 
+  <!-- 查询角色拥有的所有资源ID集合 -->
+  <select id="queryRoleHasModuleIdsByRoleId" parameterType="int" resultType="com.baldprogrammer.crm.vo.Permission">
+    select
+        module_id
+    from
+        t_permission
+    where
+        role_id = #{roleId}
+  </select>
+
 </mapper>
