@@ -1,8 +1,11 @@
 package com.baldprogrammer.crm.service;
 
 import com.baldprogrammer.crm.base.BaseService;
+import com.baldprogrammer.crm.dao.ModuleMapper;
+import com.baldprogrammer.crm.dao.PermissionMapper;
 import com.baldprogrammer.crm.dao.RoleMapper;
 import com.baldprogrammer.crm.utils.AssertUtil;
+import com.baldprogrammer.crm.vo.Permission;
 import com.baldprogrammer.crm.vo.Role;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +16,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +33,11 @@ public class RoleSerivce extends BaseService<Role, Integer> {
     @Resource
     private RoleMapper roleMapper;
 
+    @Resource
+    private PermissionMapper permissionMapper;
+
+    @Resource
+    private ModuleMapper moduleMapper;
 
     /**
      * 调用Mapper层查询方法查询角色数据
@@ -102,5 +111,39 @@ public class RoleSerivce extends BaseService<Role, Integer> {
         role.setUpdateDate(new Date());
         //执行更新操作
         AssertUtil.isTrue(roleMapper.updateByPrimaryKeySelective(role) < 1, "角色删除失败！");
+    }
+
+    /**
+     * 角色授权
+     *
+     * @param roleId
+     * @param mIds
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addGrant(Integer roleId, Integer[] mIds) {
+        //通过角色ID查询对应的权限记录
+        Integer count = permissionMapper.countPermissionByRoleId(roleId);
+        //如果权限记录存在 则删除对应的角色权限记录
+        if (count > 0) {
+            permissionMapper.deletePermissionByRoleId(roleId);
+        }
+        //如果有权限记录，则添加权限记录
+        if (mIds == null && mIds.length > 0) {
+            //定义permission集合
+            List<Permission> permissionList = new ArrayList<>();
+
+            for (Integer mId: mIds) {
+                Permission permission = new Permission();
+                permission.setModuleId(mId);
+                permission.setRoleId(roleId);
+                permission.setAclValue(moduleMapper.selectByPrimaryKey(mId).getOptValue());
+                permission.setCreateDate(new Date());
+                permission.setUpdateDate(new Date());
+                permissionList.add(permission);
+            }
+
+            //执行角色授权 判断受影响行数
+            AssertUtil.isTrue(permissionMapper.insertBatch(permissionList) != permissionList.size(), "角色授权失败！");
+        }
     }
 }

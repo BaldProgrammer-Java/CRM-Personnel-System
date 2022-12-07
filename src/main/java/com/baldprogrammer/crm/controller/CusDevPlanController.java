@@ -22,8 +22,9 @@ import java.util.Map;
  * @USER: baldprogrammer
  * @DATE: 2022/11/10 3:55 PM
  */
-@RequestMapping("/cus_dev_plan")
+
 @Controller
+@RequestMapping("/cus_dev_plan")
 public class CusDevPlanController extends BaseController {
 
     @Resource
